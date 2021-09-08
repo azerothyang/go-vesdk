@@ -1,8 +1,8 @@
 package go_vesdk
 
 import (
+	"github.com/azerothyang/go-vesdk/httpclient"
 	"github.com/go-dragon/util"
-	"go-vesdk/httpclient"
 	"reflect"
 	"strconv"
 )
