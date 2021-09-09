@@ -33,3 +33,5 @@ func main() {
 - PromotionGoodsInfo: 获取推广商品信息接口
 - PromByUid: 通过unionId获取推广链接
 - OrderRowQuery: 订单行查询接口
+- BigField: 大字段商品详情查询接口
+- JDMaterialQuery: 物料商品查询

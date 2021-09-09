@@ -30,6 +30,14 @@ type IJDService interface {
 	// OrderRowQuery 订单行查询接口
 	// https://union.jd.com/openplatform/api/12707
 	OrderRowQuery(jdOrderReq *JDOrderReq) (*JDOrderRsp, error)
+
+	// BigField 大字段商品详情查询接口
+	// https://union.jd.com/openplatform/api/11248
+	BigField(skuId []string, fields []string) (*JDBigFieldRsp, error)
+
+	// JDMaterialQuery 物料商品查询
+	// https://union.jd.com/openplatform/api/13625
+	JDMaterialQuery(jdMaterialQueryReq *JDMaterialQueryReq) (*JDMaterialQueryRsp, error)
 }
 
 // NewJDService 初始化京东服务
@@ -40,6 +48,64 @@ func NewJDService(config Config) IJDService {
 // JDService 具体结构体
 type JDService struct {
 	config Config
+}
+
+func (j *JDService) JDMaterialQuery(jdMaterialQueryReq *JDMaterialQueryReq) (*JDMaterialQueryRsp, error) {
+	queryRsp := new (JDMaterialQueryRsp)
+	refTy := reflect.TypeOf(*jdMaterialQueryReq)
+	refV := reflect.ValueOf(*jdMaterialQueryReq)
+	httpParams := map[string]string{
+		"vekey": j.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case string:
+			v := val.(string)
+			if v != "" {
+				httpParams[key] = v
+			}
+		case int:
+			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET("http://apivip.vephp.com/jd/jd_materialquery", httpParams, nil)
+	if rsp.Err != nil {
+		return queryRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), queryRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return queryRsp, veRspError
+	}
+	return queryRsp, err
+}
+
+func (j *JDService) BigField(skuIds []string, fields []string) (*JDBigFieldRsp, error) {
+	jdBigFieldRsp := new(JDBigFieldRsp)
+	httpParams := map[string]string{
+		"vekey":  j.config.VeKey,
+		"skuIds": strings.Join(skuIds, ","),
+	}
+	if len(fields) > 1 {
+		httpParams["fields"] = strings.Join(fields, ",")
+	}
+	rsp := httpclient.DefaultClient.GET("http://apivip.vephp.com/jd/bigfield", httpParams, nil)
+	if rsp.Err != nil {
+		return nil, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), jdBigFieldRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return jdBigFieldRsp, veRspError
+	}
+	return jdBigFieldRsp, nil
 }
 
 func (j *JDService) OrderRowQuery(orderReq *JDOrderReq) (*JDOrderRsp, error) {

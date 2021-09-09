@@ -217,3 +217,84 @@ func TestJDService_OrderRowQuery(t *testing.T) {
 		})
 	}
 }
+
+func TestJDService_BigField(t *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		skuIds []string
+		fields []string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *JDBigFieldRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:    "TestJDService_BigField",
+			fields:  fields{config: Config{VeKey: TestVeKey}},
+			args:    args{skuIds: []string{"68516192765", "100011431721"}, fields: []string{"imageInfo"}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			j := &JDService{
+				config: tt.fields.config,
+			}
+			got, err := j.BigField(tt.args.skuIds, tt.args.fields)
+			if err != nil {
+				log.Fatalf("TestJDService_BigField错误:\n%s", err.Error())
+			}
+			log.Printf("TestJDService_BigField测试成功😁返回：\n%s\n", toJson(got))
+		})
+	}
+}
+
+func TestJDService_JDMaterialQuery(t *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		jdMaterialQueryReq *JDMaterialQueryReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *JDMaterialQueryRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:    "TestJDService_JDMaterialQuery_case1",
+			fields:  fields{config: Config{
+				VeKey: TestVeKey,
+			}},
+			args:    args{jdMaterialQueryReq: &JDMaterialQueryReq{
+				EliteId:   1,
+				PageIndex: 1,
+				PageSize:  10,
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			j := &JDService{
+				config: tt.fields.config,
+			}
+			got, err := j.JDMaterialQuery(tt.args.jdMaterialQueryReq)
+			if err != nil {
+				log.Fatalf("TestJDService_BigField错误:\n%s", err.Error())
+			}
+			log.Printf("TestJDService_BigField测试成功😁返回：\n%s\n", toJson(got))
+		})
+	}
+}

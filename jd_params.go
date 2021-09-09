@@ -229,3 +229,127 @@ type JDOrderRsp struct {
 		ValidCode      string `json:"validCode"`
 	} `json:"data"`
 }
+
+type JDBigFieldRsp struct {
+	Error string `json:"error"`
+	Msg   string `json:"msg"`
+	Data  []struct {
+		BaseBigFieldInfo struct {
+			PropCode   string   `json:"propCode"`
+			PropGroups string   `json:"propGroups"`
+			WareQD     string   `json:"wareQD"`
+			Wdis       []string `json:"wdis"`
+		} `json:"baseBigFieldInfo"`
+		CategoryInfo struct {
+			Cid1     int    `json:"cid1"`
+			Cid1Name string `json:"cid1Name"`
+			Cid2     int    `json:"cid2"`
+			Cid2Name string `json:"cid2Name"`
+			Cid3     int    `json:"cid3"`
+			Cid3Name string `json:"cid3Name"`
+		} `json:"categoryInfo"`
+		DetailImages string `json:"detailImages"`
+		ImageInfo    struct {
+			ImageList []struct {
+				Url string `json:"url"`
+			} `json:"imageList"`
+		} `json:"imageInfo"`
+		MainSkuId int64  `json:"mainSkuId"`
+		Owner     string `json:"owner"`
+		ProductId int64  `json:"productId"`
+		SkuId     int64  `json:"skuId"`
+		SkuName   string `json:"skuName"`
+		SkuStatus int    `json:"skuStatus"`
+	} `json:"data"`
+}
+
+type JDMaterialQueryReq struct {
+	EliteId   int    `json:"eliteId"`
+	PageIndex int    `json:"pageIndex"`
+	PageSize  int    `json:"pageSize"`
+}
+
+type JDMaterialQueryRsp struct {
+	Error      string `json:"error"`
+	Msg        string `json:"msg"`
+	TotalCount string `json:"totalCount"`
+	Data       []struct {
+		BrandCode    string `json:"brandCode"`
+		BrandName    string `json:"brandName"`
+		CategoryInfo struct {
+			Cid1     string `json:"cid1"`
+			Cid1Name string `json:"cid1Name"`
+			Cid2     string `json:"cid2"`
+			Cid2Name string `json:"cid2Name"`
+			Cid3     string `json:"cid3"`
+			Cid3Name string `json:"cid3Name"`
+		} `json:"categoryInfo"`
+		Comments       string `json:"comments"`
+		CommissionInfo struct {
+			Commission          string `json:"commission"`
+			CommissionShare     string `json:"commissionShare"`
+			CouponCommission    string `json:"couponCommission"`
+			PlusCommissionShare string `json:"plusCommissionShare"`
+		} `json:"commissionInfo"`
+		CouponInfo struct {
+			CouponList []struct {
+				BindType     string `json:"bindType"`
+				Discount     string `json:"discount"`
+				GetEndTime   string `json:"getEndTime"`
+				GetStartTime string `json:"getStartTime"`
+				IsBest       string `json:"isBest"`
+				Link         string `json:"link"`
+				PlatformType string `json:"platformType"`
+				Quota        string `json:"quota"`
+				UseEndTime   string `json:"useEndTime"`
+				UseStartTime string `json:"useStartTime"`
+			} `json:"couponList"`
+		} `json:"couponInfo"`
+		DeliveryType      string `json:"deliveryType"`
+		ForbidTypes       []int  `json:"forbidTypes"`
+		GoodCommentsShare string `json:"goodCommentsShare"`
+		ImageInfo         struct {
+			ImageList []struct {
+				Url string `json:"url"`
+			} `json:"imageList"`
+			WhiteImage string `json:"whiteImage,omitempty"`
+		} `json:"imageInfo"`
+		InOrderCount30Days    string      `json:"inOrderCount30Days"`
+		InOrderCount30DaysSku string      `json:"inOrderCount30DaysSku"`
+		IsHot                 string      `json:"isHot"`
+		JxFlags               []int       `json:"jxFlags,omitempty"`
+		MaterialUrl           string      `json:"materialUrl"`
+		Owner                 string      `json:"owner"`
+		PinGouInfo            interface{} `json:"pinGouInfo"`
+		PriceInfo             struct {
+			LowestCouponPrice string `json:"lowestCouponPrice"`
+			LowestPrice       string `json:"lowestPrice"`
+			LowestPriceType   string `json:"lowestPriceType"`
+			Price             string `json:"price"`
+		} `json:"priceInfo"`
+		PromotionInfo struct {
+			ClickURL string `json:"clickURL"`
+		} `json:"promotionInfo"`
+		ResourceInfo struct {
+			EliteId   string `json:"eliteId"`
+			EliteName string `json:"eliteName"`
+		} `json:"resourceInfo"`
+		ShopInfo struct {
+			ShopId                        string `json:"shopId"`
+			ShopLabel                     string `json:"shopLabel"`
+			ShopLevel                     string `json:"shopLevel"`
+			ShopName                      string `json:"shopName"`
+			AfsFactorScoreRankGrade       string `json:"afsFactorScoreRankGrade,omitempty"`
+			AfterServiceScore             string `json:"afterServiceScore,omitempty"`
+			CommentFactorScoreRankGrade   string `json:"commentFactorScoreRankGrade,omitempty"`
+			LogisticsFactorScoreRankGrade string `json:"logisticsFactorScoreRankGrade,omitempty"`
+			LogisticsLvyueScore           string `json:"logisticsLvyueScore,omitempty"`
+			ScoreRankRate                 string `json:"scoreRankRate,omitempty"`
+			UserEvaluateScore             string `json:"userEvaluateScore,omitempty"`
+		} `json:"shopInfo"`
+		SkuId     string        `json:"skuId"`
+		SkuName   string        `json:"skuName"`
+		Spuid     string        `json:"spuid"`
+		VideoInfo []interface{} `json:"videoInfo"`
+	} `json:"data"`
+}
