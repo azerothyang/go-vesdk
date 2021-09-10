@@ -5,8 +5,6 @@ var (
 		"normalSearch":  "1", // 泛搜索
 		"specialSearch": "2", // 定向搜索
 	}
-
-
 )
 
 // OrderDetailsParams 订单查询 start
@@ -95,17 +93,17 @@ type OrderDetailsRsp struct {
 type HCApiParams struct {
 	Para        string `json:"para"`
 	Pid         string `json:"pid"`
-	RelationId  string `json:"relationId"`
-	SpecialId   string `json:"special_id"`
+	RelationId  int64  `json:"relationId"`
+	SpecialId   int64  `json:"special_id"`
 	ExternalId  string `json:"external_id"`
-	Detail      string `json:"detail"`
+	Detail      int    `json:"detail"`
 	ActivityId  string `json:"activity_id"`
-	DeepCoupon  string `json:"deepcoupon"`
-	ShopCoupon  string `json:"shopcoupon"`
-	NoTkl       string `json:"notkl"`
-	NoShortLink string `json:"noshortlink"`
+	DeepCoupon  int    `json:"deepcoupon"`
+	ShopCoupon  int    `json:"shopcoupon"`
+	NoTkl       int    `json:"notkl"`
+	NoShortLink int    `json:"noshortlink"`
 	CouponId    string `json:"couponId"`
-	TklType     string `json:"tkl_type"`
+	TklType     int    `json:"tkl_type"`
 	Xid         string `json:"xid"`
 	GetTopnRate string `json:"get_topn_rate"`
 	UcrowdId    string `json:"ucrowd_id"`
@@ -116,22 +114,41 @@ type HCApiRsp struct {
 	Msg    string `json:"msg"`
 	Result int    `json:"result"`
 	Data   struct {
-		CategoryId        string `json:"category_id"`
-		CouponClickUrl    string `json:"coupon_click_url"`
-		CouponEndTime     string `json:"coupon_end_time"`
-		CouponInfo        string `json:"coupon_info"`
-		CouponRemainCount string `json:"coupon_remain_count"`
-		CouponStartTime   string `json:"coupon_start_time"`
-		CouponTotalCount  string `json:"coupon_total_count"`
-		MaxCommissionRate string `json:"max_commission_rate"`
-		RewardInfo        string `json:"reward_info"`
-		CommissionRate    string `json:"commission_rate"`
-		NumIid            string `json:"num_iid"`
-		SclickUrl         string `json:"sclick_url"`
-		TbkPwd            string `json:"tbk_pwd"`
-		IosTbkPwd         string `json:"ios_tbk_pwd"`
-		GlobalTbkPwd      string `json:"global_tbk_pwd"`
-		CouponShortUrl    string `json:"coupon_short_url"`
+		CategoryId           string   `json:"category_id"`
+		CouponClickUrl       string   `json:"coupon_click_url"`
+		MaxCommissionRate    string   `json:"max_commission_rate"`
+		RewardInfo           string   `json:"reward_info"`
+		CommissionRate       string   `json:"commission_rate"`
+		NumIid               string   `json:"num_iid"`
+		OriginalUlandLink    string   `json:"original_uland_link"`
+		SclickUrl            string   `json:"sclick_url"`
+		ZkFinalPrice         string   `json:"zk_final_price"`
+		WhiteImage           string   `json:"white_image"`
+		Volume               string   `json:"volume"`
+		UserType             string   `json:"user_type"`
+		Title                string   `json:"title"`
+		SuperiorBrand        string   `json:"superior_brand"`
+		SmallImages          []string `json:"small_images"`
+		ShopTitle            string   `json:"shop_title"`
+		ShopDsr              string   `json:"shop_dsr"`
+		SellerId             string   `json:"seller_id"`
+		ReservePrice         string   `json:"reserve_price"`
+		RealPostFee          string   `json:"real_post_fee"`
+		PresaleTailStartTime int      `json:"presale_tail_start_time"`
+		PresaleTailEndTime   int      `json:"presale_tail_end_time"`
+		PresaleStartTime     int      `json:"presale_start_time"`
+		PresaleEndTime       int      `json:"presale_end_time"`
+		PresaleDeposit       string   `json:"presale_deposit"`
+		PictUrl              string   `json:"pict_url"`
+		Nick                 string   `json:"nick"`
+		KuadianPromotionInfo string   `json:"kuadian_promotion_info"`
+		ItemUrl              string   `json:"item_url"`
+		CatName              string   `json:"cat_name"`
+		CatLeafName          string   `json:"cat_leaf_name"`
+		TbkPwd               string   `json:"tbk_pwd"`
+		IosTbkPwd            string   `json:"ios_tbk_pwd"`
+		GlobalTbkPwd         string   `json:"global_tbk_pwd"`
+		CouponShortUrl       string   `json:"coupon_short_url"`
 	} `json:"data"`
 }
 
@@ -143,22 +160,47 @@ type HCApiAllRsp struct {
 	Fail    int    `json:"fail"`
 	FailIds string `json:"fail_ids"`
 	Data    []struct {
-		CategoryId        string `json:"category_id"`
-		CouponClickUrl    string `json:"coupon_click_url"`
-		CouponEndTime     string `json:"coupon_end_time"`
-		CouponInfo        string `json:"coupon_info"`
-		CouponRemainCount string `json:"coupon_remain_count"`
-		CouponStartTime   string `json:"coupon_start_time"`
-		CouponTotalCount  string `json:"coupon_total_count"`
-		MaxCommissionRate string `json:"max_commission_rate"`
-		RewardInfo        string `json:"reward_info"`
-		CommissionRate    string `json:"commission_rate"`
-		NumIid            string `json:"num_iid"`
-		SclickUrl         string `json:"sclick_url"`
-		TbkPwd            string `json:"tbk_pwd"`
-		IosTbkPwd         string `json:"ios_tbk_pwd"`
-		GlobalTbkPwd      string `json:"global_tbk_pwd"`
-		CouponShortUrl    string `json:"coupon_short_url"`
+		CategoryId             string   `json:"category_id"`
+		CouponClickUrl         string   `json:"coupon_click_url"`
+		MaxCommissionRate      string   `json:"max_commission_rate"`
+		RewardInfo             string   `json:"reward_info"`
+		CommissionRate         string   `json:"commission_rate"`
+		NumIid                 string   `json:"num_iid"`
+		OriginalUlandLink      string   `json:"original_uland_link,omitempty"`
+		SclickUrl              string   `json:"sclick_url"`
+		ZkFinalPrice           string   `json:"zk_final_price"`
+		WhiteImage             string   `json:"white_image"`
+		Volume                 string   `json:"volume"`
+		UserType               string   `json:"user_type"`
+		Title                  string   `json:"title"`
+		SuperiorBrand          string   `json:"superior_brand"`
+		SmallImages            []string `json:"small_images"`
+		ShopTitle              string   `json:"shop_title"`
+		ShopDsr                string   `json:"shop_dsr"`
+		SellerId               string   `json:"seller_id"`
+		ReservePrice           string   `json:"reserve_price"`
+		RealPostFee            string   `json:"real_post_fee"`
+		PresaleTailStartTime   int64    `json:"presale_tail_start_time"`
+		PresaleTailEndTime     int64    `json:"presale_tail_end_time"`
+		PresaleStartTime       int64    `json:"presale_start_time"`
+		PresaleEndTime         int64    `json:"presale_end_time"`
+		PresaleDiscountFeeText string   `json:"presale_discount_fee_text,omitempty"`
+		PresaleDeposit         string   `json:"presale_deposit"`
+		PictUrl                string   `json:"pict_url"`
+		Nick                   string   `json:"nick"`
+		KuadianPromotionInfo   string   `json:"kuadian_promotion_info"`
+		ItemUrl                string   `json:"item_url"`
+		CatName                string   `json:"cat_name"`
+		CatLeafName            string   `json:"cat_leaf_name"`
+		TbkPwd                 string   `json:"tbk_pwd"`
+		IosTbkPwd              string   `json:"ios_tbk_pwd"`
+		GlobalTbkPwd           string   `json:"global_tbk_pwd"`
+		CouponShortUrl         string   `json:"coupon_short_url"`
+		CouponEndTime          string   `json:"coupon_end_time,omitempty"`
+		CouponInfo             string   `json:"coupon_info,omitempty"`
+		CouponRemainCount      string   `json:"coupon_remain_count,omitempty"`
+		CouponStartTime        string   `json:"coupon_start_time,omitempty"`
+		CouponTotalCount       string   `json:"coupon_total_count,omitempty"`
 	} `json:"data"`
 }
 
@@ -255,8 +297,8 @@ type SuperSearchRsp struct {
 		ZkFinalPrice         string   `json:"zk_final_price"`
 		KuadianPromotionInfo string   `json:"kuadian_promotion_info,omitempty"`
 	} `json:"result_list"`
-	Result      int    `json:"result"`
-	Data        struct {
+	Result int `json:"result"`
+	Data   struct {
 		CategoryId           string   `json:"category_id"`
 		CouponClickUrl       string   `json:"coupon_click_url"`
 		CouponEndTime        string   `json:"coupon_end_time"`

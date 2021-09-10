@@ -3,6 +3,7 @@ package go_vesdk
 import (
 	"github.com/azerothyang/go-vesdk/httpclient"
 	"github.com/go-dragon/util"
+	"net/url"
 	"reflect"
 	"strconv"
 )
@@ -49,7 +50,12 @@ func (t *TaoBaoService) SuperSearch(superSearchReq *SuperSearchReq) (*SuperSearc
 		case string:
 			v := val.(string)
 			if v != "" {
-				httpParams[key] = v
+				if key == "para" {
+					// 需要url编码
+					httpParams[key] = url.QueryEscape(v)
+				} else {
+					httpParams[key] = v
+				}
 			}
 		case int:
 			v := val.(int)
@@ -135,12 +141,22 @@ func (t *TaoBaoService) HCApiOne(hcParams *HCApiParams) (*HCApiRsp, error) {
 		case string:
 			v := val.(string)
 			if v != "" {
-				httpParams[key] = v
+				if key == "para" {
+					// 需要url编码
+					httpParams[key] = url.QueryEscape(v)
+				} else {
+					httpParams[key] = v
+				}
 			}
 		case int:
 			v := val.(int)
 			if v != 0 {
 				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		case int64:
+			v := val.(int64)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(v, 10)
 			}
 		}
 	}
@@ -175,12 +191,22 @@ func (t *TaoBaoService) HCApiAllByItemIds(hcParams *HCApiParams) (*HCApiAllRsp, 
 		case string:
 			v := val.(string)
 			if v != "" {
-				httpParams[key] = v
+				if key == "para" {
+					// 需要url编码
+					httpParams[key] = url.QueryEscape(v)
+				} else {
+					httpParams[key] = v
+				}
 			}
 		case int:
 			v := val.(int)
 			if v != 0 {
 				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		case int64:
+			v := val.(int64)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(v, 10)
 			}
 		}
 	}
