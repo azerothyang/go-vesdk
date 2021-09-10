@@ -1,12 +1,10 @@
 package go_vesdk
 
 import (
+	"github.com/azerothyang/go-vesdk/key"
+	"go/types"
 	"log"
 	"testing"
-)
-
-const (
-	TestVeKey = "V" // todo 提交时要修改
 )
 
 func TestTaoBaoService_HCApiAllByItemIds(t1 *testing.T) {
@@ -26,7 +24,7 @@ func TestTaoBaoService_HCApiAllByItemIds(t1 *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestTaoBaoService_HCApiAllByItemIds",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{hcParams: &HCApiParams{
 				Para:        "653217285015,619337473117",
 				Pid:         "",
@@ -80,7 +78,7 @@ func TestTaoBaoService_HCApiOne(t1 *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestTaoBaoService_HCApiOne_case_1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{hcParams: &HCApiParams{
 				Para:        "650096340209",
 				Pid:         "",
@@ -134,7 +132,7 @@ func TestTaoBaoService_OrderDetails(t1 *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestTaoBaoService_OrderDetails_case_1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{orderDetailParams: &OrderDetailsParams{
 				StartTime:     "2021-09-07 18:21:16",
 				EndTime:       "2021-09-07 18:30:16",
@@ -159,6 +157,85 @@ func TestTaoBaoService_OrderDetails(t1 *testing.T) {
 				log.Fatalf("TestTaoBaoService_OrderDetails错误:%s", err.Error())
 			}
 			log.Printf("TestTaoBaoService_OrderDetails测试成功😁返回：%s", toJson(got))
+		})
+	}
+}
+
+func TestTaoBaoService_SuperSearch(t1 *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		superSearchReq *SuperSearchReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    types.Nil
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestTaoBaoService_SuperSearch_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{superSearchReq: &SuperSearchReq{
+				Para:              "651946177368",
+				Cat:               "",
+				Pid:               "mm_708300086_1360150325_110124300439",
+				RelationId:        "",
+				Page:              0,
+				PageSize:          0,
+				ForceIndex:        "",
+				Coupon:            "",
+				StartPrice:        "",
+				EndPrice:          "",
+				StartTkRate:       "",
+				EndTkRate:         "",
+				IsOverseas:        0,
+				IsTmall:           0,
+				Sort:              "",
+				OnlySearch:        0,
+				Similar:           0,
+				SearchItem:        0,
+				Ip:                "",
+				FreeShip:          0,
+				Npx:               2,
+				ItemId:            0,
+				Virtual:           2,
+				Presale:           0,
+				IncludePayRate30:  0,
+				IncludeGoodRate:   0,
+				EndKaTkRate:       0,
+				StartKaTkRate:     0,
+				DeviceValue:       "",
+				DeviceEncrypt:     "",
+				DeviceType:        "",
+				LockRateEndTime:   0,
+				LockRateStartTime: 0,
+				SellerIds:         "",
+				CityCode:          "",
+				Latitude:          0,
+				Longitude:         0,
+				SpecialId:         "",
+				NeedPrepay:        0,
+				TkLink:            1,
+			}},
+			want:    types.Nil{},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t1.Run(tt.name, func(t1 *testing.T) {
+			t := &TaoBaoService{
+				config: tt.fields.config,
+			}
+			got, err := t.SuperSearch(tt.args.superSearchReq)
+			if err != nil {
+				log.Fatalf("TestTaoBaoService_SuperSearch错误:%s", err.Error())
+			}
+			log.Printf("TestTaoBaoService_SuperSearch测试成功😁-搜索返回：%s", toJson(got))
+
 		})
 	}
 }

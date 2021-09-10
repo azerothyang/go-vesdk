@@ -264,9 +264,9 @@ type JDBigFieldRsp struct {
 }
 
 type JDMaterialQueryReq struct {
-	EliteId   int    `json:"eliteId"`
-	PageIndex int    `json:"pageIndex"`
-	PageSize  int    `json:"pageSize"`
+	EliteId   int `json:"eliteId"`
+	PageIndex int `json:"pageIndex"`
+	PageSize  int `json:"pageSize"`
 }
 
 type JDMaterialQueryRsp struct {

@@ -1,6 +1,7 @@
 package go_vesdk
 
 import (
+	"github.com/azerothyang/go-vesdk/key"
 	"log"
 	"net/url"
 	"testing"
@@ -23,7 +24,7 @@ func TestJDService_JDSearch(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestJDService_JDSearch_case_1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{jdParams: &JDSearchParams{
 				SkuIds:  "",
 				Keyword: "电子产品",
@@ -69,7 +70,7 @@ func TestJDService_Category(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestJDService_Category_case1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{
 				parentId: 0, // 上一级类目id
 				grade:    0, // 当前查询第几级，类目级别(类目级别 0，1，2 代表一、二、三级类目)
@@ -109,7 +110,7 @@ func TestJDService_PromotionGoodsInfo(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "TestJDService_PromotionGoodsInfo_case1",
-			fields:  fields{config: Config{VeKey: TestVeKey}},
+			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{skuIds: []string{"100016777664", "4718515"}},
 			want:    nil,
 			wantErr: false,
@@ -144,7 +145,7 @@ func TestJDService_PromByUid(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestJDService_PromByUid_case1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{jdPromotionCodeReq: &JDPromotionCodeReq{
 				MaterialId:    "http://item.jd.com/67194752420.html",
 				UnionId:       123456,
@@ -189,7 +190,7 @@ func TestJDService_OrderRowQuery(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:   "TestJDService_OrderRowQuery_case1",
-			fields: fields{config: Config{VeKey: TestVeKey}},
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{&JDOrderReq{
 				PageIndex:    1,
 				PageSize:     20,
@@ -236,7 +237,7 @@ func TestJDService_BigField(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "TestJDService_BigField",
-			fields:  fields{config: Config{VeKey: TestVeKey}},
+			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{skuIds: []string{"68516192765", "100011431721"}, fields: []string{"imageInfo"}},
 			want:    nil,
 			wantErr: false,
@@ -272,11 +273,11 @@ func TestJDService_JDMaterialQuery(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestJDService_JDMaterialQuery_case1",
-			fields:  fields{config: Config{
-				VeKey: TestVeKey,
+			name: "TestJDService_JDMaterialQuery_case1",
+			fields: fields{config: Config{
+				VeKey: key.TestVeKey,
 			}},
-			args:    args{jdMaterialQueryReq: &JDMaterialQueryReq{
+			args: args{jdMaterialQueryReq: &JDMaterialQueryReq{
 				EliteId:   1,
 				PageIndex: 1,
 				PageSize:  10,

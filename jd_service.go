@@ -51,7 +51,7 @@ type JDService struct {
 }
 
 func (j *JDService) JDMaterialQuery(jdMaterialQueryReq *JDMaterialQueryReq) (*JDMaterialQueryRsp, error) {
-	queryRsp := new (JDMaterialQueryRsp)
+	queryRsp := new(JDMaterialQueryRsp)
 	refTy := reflect.TypeOf(*jdMaterialQueryReq)
 	refV := reflect.ValueOf(*jdMaterialQueryReq)
 	httpParams := map[string]string{

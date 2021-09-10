@@ -26,6 +26,7 @@ func main() {
 - OrderDetails: 订单查询
 - HCApiOne: 高佣转链
 - HCApiAllByItemIds: 多个商品id批量高佣转链
+- SuperSearch: 超级搜索接口
 
 ### 京东相关
 - JDSearch: 关键词商品查询接口
