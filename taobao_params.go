@@ -1,24 +1,26 @@
 package go_vesdk
 
-var (
-	SearchType = map[string]string{
-		"normalSearch":  "1", // 泛搜索
-		"specialSearch": "2", // 定向搜索
-	}
+type QueryType int
+
+const (
+	QueryTypeCreateTime QueryType = iota + 1
+	QueryTypePaidTime
+	QueryTypeTimeSettle
+	QueryTypeUpdateTime
 )
 
 // OrderDetailsParams 订单查询 start
 type OrderDetailsParams struct {
-	StartTime     string `json:"start_time"`
-	EndTime       string `json:"end_time"`
-	QueryType     int    `json:"query_type"`
-	PositionIndex string `json:"position_index"`
-	PageNo        int    `json:"page_no"`
-	PageSize      int    `json:"page_size"`
-	MemberType    int    `json:"member_type"`
-	TKStatus      int    `json:"tk_status"`
-	JumpType      int    `json:"jump_type"`
-	OrderScene    int    `json:"order_scene"`
+	StartTime     string    `json:"start_time"`
+	EndTime       string    `json:"end_time"`
+	QueryType     QueryType `json:"query_type"`
+	PositionIndex string    `json:"position_index"`
+	PageNo        int       `json:"page_no"`
+	PageSize      int       `json:"page_size"`
+	MemberType    int       `json:"member_type"`
+	TKStatus      int       `json:"tk_status"`
+	JumpType      int       `json:"jump_type"`
+	OrderScene    int       `json:"order_scene"`
 }
 
 type OrderDetailsRsp struct {
@@ -338,5 +340,90 @@ type SuperSearchRsp struct {
 		IosTbkPwd            string   `json:"ios_tbk_pwd"`
 		GlobalTbkPwd         string   `json:"global_tbk_pwd"`
 		CouponShortUrl       string   `json:"coupon_short_url"`
+	} `json:"data"`
+}
+
+type OrderPunishReq struct {
+	StartTime  string `json:"start_time"`
+	TbTradeId  string `json:"tb_trade_id"`
+	RelationId string `json:"relation_id"`
+	Span       int    `json:"span"`
+	PageNo     int    `json:"page_no"`
+	PageSize   int    `json:"page_size"`
+	AdzoneId   string `json:"adzone_id"`
+	SiteId     string `json:"site_id"`
+}
+
+// OrderPunishRsp
+// PunishStatus处罚状态。0 冻结，1 解冻
+type OrderPunishRsp struct {
+	Error      string `json:"error"`
+	Msg        string `json:"msg"`
+	PageNo     int    `json:"page_no"`
+	PageSize   int    `json:"page_size"`
+	TotalCount int    `json:"total_count"`
+	Data       struct {
+		Result []struct {
+			PunishStatus      string `json:"punish_status"`
+			RelationId        int64  `json:"relation_id"`
+			SettleMonth       int    `json:"settle_month"`
+			TbTradeId         int64  `json:"tb_trade_id"`
+			TkAdzoneId        int64  `json:"tk_adzone_id"`
+			TkPubId           int    `json:"tk_pub_id"`
+			TkSiteId          int    `json:"tk_site_id"`
+			TkTradeCreateTime string `json:"tk_trade_create_time"`
+			ViolationType     string `json:"violation_type"`
+		} `json:"result"`
+	} `json:"data"`
+}
+
+// RefundOrderReq
+//page_no 可选，默认值1，表示页码。翻页时使用。
+//page_size 可选：默认值30，即每页返回30笔维权订单。
+//search_type 可选：默认值1，可选值含义：1-维权发起时间，2-订单结算时间（正向订单），3-维权完成时间，4-订单创建时间，5-订单更新时间，即增量查询订单（出参更新字段modified_time）。
+//refund_type 可选：默认值0，可选值含义：1 表示2方，2表示3方，0表示不限
+//start_time 必选：表示开始时间，格式如2018-10-10 00:00:00，默认是一天时间。
+//biz_type 可选：默认值3，1代表渠道关系id，2代表会员关系id，3表示渠道+会员
+type RefundOrderReq struct {
+	StartTime  string `json:"start_time"`
+	PageNo     int    `json:"page_no"`
+	PageSize   int    `json:"page_size"`
+	SearchType int    `json:"search_type"`
+	RefundType int    `json:"refund_type"`
+	BizType    int    `json:"biz_type"`
+}
+
+type RefundOrderRsp struct {
+	Error string `json:"error"`
+	Msg   string `json:"msg"`
+	Data  struct {
+		BizErrorCode int `json:"biz_error_code"`
+		Data         struct {
+			PageNo   int `json:"page_no"`
+			PageSize int `json:"page_size"`
+			Results  struct {
+				Result []struct {
+					EarningTime              string `json:"earning_time"`
+					ModifiedTime             string `json:"modified_time"`
+					RefundFee                string `json:"refund_fee"`
+					RefundStatus             int    `json:"refund_status"`
+					RefundType               int    `json:"refund_type"`
+					SpecialId                int64  `json:"special_id"`
+					TbAuctionTitle           string `json:"tb_auction_title"`
+					TbTradeCreateTime        string `json:"tb_trade_create_time"`
+					TbTradeFinishPrice       string `json:"tb_trade_finish_price"`
+					TbTradeId                int64  `json:"tb_trade_id"`
+					TbTradeParentId          int64  `json:"tb_trade_parent_id"`
+					TkCommissionFeeRefundPub string `json:"tk_commission_fee_refund_pub"`
+					TkPubId                  int    `json:"tk_pub_id"`
+					TkPubShowReturnFee       string `json:"tk_pub_show_return_fee"`
+					TkRefundSuitTime         string `json:"tk_refund_suit_time"`
+					TkRefundTime             string `json:"tk_refund_time"`
+					TkSubsidyFeeRefundPub    string `json:"tk_subsidy_fee_refund_pub"`
+				} `json:"result"`
+			} `json:"results"`
+			TotalCount int `json:"total_count"`
+		} `json:"data"`
+		ResultCode int `json:"result_code"`
 	} `json:"data"`
 }

@@ -12,18 +12,29 @@ import (
 type ITaoBaoService interface {
 	// OrderDetails 订单查询
 	// http://wsd.591hufu.com/doc/xinbantaokedingdanapi
-	OrderDetails(orderDetailParams *OrderDetailsParams) (*OrderDetailsRsp, error)
+	// 具体参数可以参考官方文档：https://open.taobao.com/api.htm?docId=43755&docType=2&scopeId=16322
+	OrderDetails(*OrderDetailsParams) (*OrderDetailsRsp, error)
 	// HCApiOne 高佣转链
 	// http://wsd.591hufu.com/doc/gaoyongzhuanlianjiekou
-	HCApiOne(hcParams *HCApiParams) (*HCApiRsp, error)
+	HCApiOne(*HCApiParams) (*HCApiRsp, error)
 	// HCApiAllByItemIds 多个商品id批量高佣转链
 	// http://wsd.591hufu.com/doc/gaoyongzhuanlianjiekou
-	HCApiAllByItemIds(hcParams *HCApiParams) (*HCApiAllRsp, error)
+	HCApiAllByItemIds(*HCApiParams) (*HCApiAllRsp, error)
 	// SuperSearch 超级搜索接口-淘宝联盟强大搜索功能帮你把握成交概率
 	// http://wsd.591hufu.com/doc/chaojisousuojiekou
 	// SuperSearchListRsp结果代表泛搜索，搜索返回列表
 	// SuperSearchHCApiRsp结果代表定向搜索，搜索返回高佣转链
-	SuperSearch(superSearchReq *SuperSearchReq) (*SuperSearchRsp, error)
+	SuperSearch(*SuperSearchReq) (*SuperSearchRsp, error)
+
+	// OrderPunish 淘宝客处罚订单查询用法
+	// http://wsd.591hufu.com/doc/chufadingdanchaxun
+	// 官方文档：https://open.taobao.com/api.htm?docId=41942&docType=2&scopeId=15738
+	OrderPunish(*OrderPunishReq) (*OrderPunishRsp, error)
+
+	// RefundOrder 淘客维权订单接口-支持渠道订单和会员订单维权
+	// http://wsd.591hufu.com/doc/taokeweiquandingdanjiekou
+	// 官方文档：https://open.taobao.com/api.htm?docId=43755&docType=2&scopeId=16322
+	RefundOrder(*RefundOrderReq) (*RefundOrderRsp, error)
 }
 
 // TaoBaoService 具体结构体
@@ -34,6 +45,78 @@ type TaoBaoService struct {
 // NewTaoBaoService 初始化淘宝服务
 func NewTaoBaoService(config Config) ITaoBaoService {
 	return &TaoBaoService{config: config}
+}
+
+func (t *TaoBaoService) RefundOrder(refundOrderReq *RefundOrderReq) (*RefundOrderRsp, error) {
+	refundOrderRsp := new(RefundOrderRsp)
+	refTy := reflect.TypeOf(*refundOrderReq)
+	refV := reflect.ValueOf(*refundOrderReq)
+	httpParams := map[string]string{
+		"vekey": t.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case string:
+			v := val.(string)
+			if v != "" {
+				httpParams[key] = v
+			}
+		case int:
+			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/refundorder", httpParams, nil)
+	if rsp.Err != nil {
+		return refundOrderRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), refundOrderRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return refundOrderRsp, veRspError
+	}
+	return refundOrderRsp, err
+}
+
+func (t *TaoBaoService) OrderPunish(orderPunishReq *OrderPunishReq) (*OrderPunishRsp, error) {
+	var orderPunRsp = new(OrderPunishRsp)
+	refTy := reflect.TypeOf(*orderPunishReq)
+	refV := reflect.ValueOf(*orderPunishReq)
+	httpParams := map[string]string{
+		"vekey": t.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case string:
+			v := val.(string)
+			if v != "" {
+				httpParams[key] = v
+			}
+		case int:
+			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/orderpunish", httpParams, nil)
+	if rsp.Err != nil {
+		return orderPunRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), orderPunRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return orderPunRsp, veRspError
+	}
+	return orderPunRsp, nil
 }
 
 func (t *TaoBaoService) SuperSearch(superSearchReq *SuperSearchReq) (*SuperSearchRsp, error) {
@@ -107,6 +190,11 @@ func (t *TaoBaoService) OrderDetails(orderDetailParams *OrderDetailsParams) (*Or
 			}
 		case int:
 			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		case QueryType:
+			v := val.(QueryType)
 			if v != 0 {
 				httpParams[key] = strconv.FormatInt(int64(v), 10)
 			}

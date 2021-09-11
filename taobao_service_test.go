@@ -136,7 +136,7 @@ func TestTaoBaoService_OrderDetails(t1 *testing.T) {
 			args: args{orderDetailParams: &OrderDetailsParams{
 				StartTime:     "2021-09-07 18:21:16",
 				EndTime:       "2021-09-07 18:30:16",
-				QueryType:     0,
+				QueryType:     QueryTypeUpdateTime,
 				PositionIndex: "",
 				PageNo:        0,
 				PageSize:      0,
@@ -236,6 +236,96 @@ func TestTaoBaoService_SuperSearch(t1 *testing.T) {
 			}
 			log.Printf("TestTaoBaoService_SuperSearch测试成功😁-搜索返回：%s", toJson(got))
 
+		})
+	}
+}
+
+func TestTaoBaoService_OrderPunish(t1 *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		orderPunishReq *OrderPunishReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *OrderPunishRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestTaoBaoService_OrderPunish_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{orderPunishReq: &OrderPunishReq{
+				StartTime:  "2021-09-01",
+				TbTradeId:  "",
+				RelationId: "",
+				Span:       30,
+				PageNo:     0,
+				PageSize:   0,
+				AdzoneId:   "",
+				SiteId:     "",
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t1.Run(tt.name, func(t1 *testing.T) {
+			t := &TaoBaoService{
+				config: tt.fields.config,
+			}
+			got, err := t.OrderPunish(tt.args.orderPunishReq)
+			if err != nil {
+				log.Fatalf("TestTaoBaoService_OrderDetails错误:%s", err.Error())
+			}
+			log.Printf("TestTaoBaoService_OrderDetails测试成功😁返回：%s", toJson(got))
+		})
+	}
+}
+
+func TestTaoBaoService_RefundOrder(t1 *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		refundOrderReq *RefundOrderReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *RefundOrderRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestTaoBaoService_RefundOrder_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{refundOrderReq: &RefundOrderReq{
+				StartTime:  "2021-09-11 00:00:00",
+				PageNo:     1,
+				PageSize:   30,
+				SearchType: 5,
+				RefundType: 1,
+				BizType:    1,
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t1.Run(tt.name, func(t1 *testing.T) {
+			t := &TaoBaoService{
+				config: tt.fields.config,
+			}
+			got, err := t.RefundOrder(tt.args.refundOrderReq)
+			if err != nil {
+				log.Fatalf("TestTaoBaoService_RefundOrder错误:%s", err.Error())
+			}
+			log.Printf("TestTaoBaoService_RefundOrder测试成功😁返回：%s", toJson(got))
 		})
 	}
 }
