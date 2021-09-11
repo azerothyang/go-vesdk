@@ -17,7 +17,16 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Printf("类目名称1：%s\n", cats.Data[0].Name)
+	fmt.Printf("类目名称：%v\n", *cats)
+
+	taobaoSrv := go_vesdk.NewTaoBaoService(go_vesdk.Config{VeKey: "V0000"})
+	hcApiRsp, err := taobaoSrv.HCApiOne(&go_vesdk.HCApiParams{
+		Para:        "527484822054",
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Printf("高佣转链:%v\n", *hcApiRsp)
 }
 ```
 

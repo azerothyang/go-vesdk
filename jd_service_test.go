@@ -198,7 +198,7 @@ func TestJDService_OrderRowQuery(t *testing.T) {
 				StartTime:    "2021-06-18 20:23:00",
 				EndTime:      "2021-06-18 21:23:00",
 				ChildUnionId: 0,
-				Key:          "123456", // todo 删除掉
+				Key:          key.TestJDKey, // todo 删除掉
 				Fields:       "",
 			}},
 			want:    nil,
