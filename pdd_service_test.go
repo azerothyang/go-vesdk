@@ -6,116 +6,117 @@ import (
 	"testing"
 )
 
-func TestPDDService_Cats(t *testing.T) {
+func TestPddService_Cats(t *testing.T) {
 	type fields struct {
 		config Config
 	}
 	type args struct {
-		pddReq *PDDCatsReq
+		pddReq *PddCatsReq
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    *PDDCatsRsp
+		want    *PddCatsRsp
 		wantErr bool
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestPDDService_PDDCats",
+			name:    "TestPddService_PddCats",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
-			args:    args{pddReq: &PDDCatsReq{ParentCatId: 0}},
+			args:    args{pddReq: &PddCatsReq{ParentCatId: 0}},
 			want:    nil,
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &PDDService{
+			p := &PddService{
 				config: tt.fields.config,
 			}
 			got, err := p.Cats(tt.args.pddReq)
 			if err != nil {
-				log.Fatalf("TestPDDService_PDDCats错误:%s", err.Error())
+				log.Fatalf("TestPddService_PddCats错误:%s", err.Error())
 			}
-			log.Printf("TestPDDService_PDDCats测试成功😁返回：%s", toJson(got))
+			log.Printf("TestPddService_PddCats测试成功😁返回：%s", toJson(got))
 		})
 	}
 }
 
-func TestPDDService_GoodsOpt(t *testing.T) {
+func TestPddService_GoodsOpt(t *testing.T) {
 	type fields struct {
 		config Config
 	}
 	type args struct {
-		goodsOptReq *PDDGoodsOptReq
+		goodsOptReq *PddGoodsOptReq
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    *PDDGoodsOptRsp
+		want    *PddGoodsOptRsp
 		wantErr bool
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestPDDService_GoodsOpt_case1",
+			name:    "TestPddService_GoodsOpt_case1",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
-			args:    args{goodsOptReq: &PDDGoodsOptReq{ParentOptId: 0}},
+			args:    args{goodsOptReq: &PddGoodsOptReq{ParentOptId: 0}},
 			want:    nil,
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &PDDService{
+			p := &PddService{
 				config: tt.fields.config,
 			}
 			got, err := p.GoodsOpt(tt.args.goodsOptReq)
 			if err != nil {
-				log.Fatalf("TestPDDService_GoodsOpt错误:%s", err.Error())
+				log.Fatalf("TestPddService_GoodsOpt错误:%s", err.Error())
 			}
-			log.Printf("TestPDDService_GoodsOpt测试成功😁返回：%s", toJson(got))
+			log.Printf("TestPddService_GoodsOpt测试成功😁返回：%s", toJson(got))
 		})
 	}
 }
 
-func TestPDDService_GoodsSearch(t *testing.T) {
+func TestPddService_GoodsSearch(t *testing.T) {
 	type fields struct {
 		config Config
 	}
 	type args struct {
-		pddSearchReq *PDDGoodsSearchReq
+		pddSearchReq *PddGoodsSearchReq
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
-		want    *PDDGoodsSearchRsp
+		want    *PddGoodsSearchRsp
 		wantErr bool
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestPDDService_GoodsSearch_case1",
-			fields:  fields{config: Config{VeKey: key.TestVeKey}},
-			args:    args{pddSearchReq: &PDDGoodsSearchReq{
-				AccessToken:      key.TestPDDAccessToken,
+			name:   "TestPddService_GoodsSearch_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{pddSearchReq: &PddGoodsSearchReq{
+				AccessToken:      key.TestPddAccessToken,
 				ActivityTags:     nil,
 				BlockCatPackages: nil,
 				BlockCats:        nil,
 				CatId:            0,
-				CustomParameters: "",
+				CustomParameters: "{\"uid\": \"0\"}",
 				GoodsImgType:     0,
 				GoodsSignList:    nil,
 				IsBrandGoods:     false,
-				Keyword:          "",
+				//Keyword:          "手机", // 这里需要注意，如果传入了Keyword则需要传入CustomParameters，可以默认使用一个uid为0的备案
+				Keyword:          "239881990818", // 这里需要注意，如果传入了Keyword则需要传入CustomParameters，可以默认使用一个uid为0的备案
 				ListId:           "",
 				MerchantType:     0,
 				MerchantTypeList: nil,
 				OptId:            0,
 				Page:             0,
 				PageSize:         0,
-				Pid:              key.TestPDDPid,
+				Pid:              key.TestPddPid,
 				RangeList:        nil,
 				SortType:         0,
 				UseCustomized:    false,
@@ -127,14 +128,96 @@ func TestPDDService_GoodsSearch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &PDDService{
+			p := &PddService{
 				config: tt.fields.config,
 			}
 			got, err := p.GoodsSearch(tt.args.pddSearchReq)
 			if err != nil {
-				log.Fatalf("TestPDDService_GoodsOpt错误:%s", err.Error())
+				log.Fatalf("TestPddService_GoodsSearch错误:%s", err.Error())
 			}
-			log.Printf("TestPDDService_GoodsOpt测试成功😁返回：%s", toJson(got))
+			log.Printf("TestPddService_GoodsSearch测试成功😁返回：%s", toJson(got))
+		})
+	}
+}
+
+func TestPddService_PddGenerate(t *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		pddGenerateReq *PddGenerateReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *PddGenerateRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestPddService_PddGenerate_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{pddGenerateReq: &PddGenerateReq{
+				AccessToken:      key.TestPddAccessToken,
+				PIdList:          key.TestPddPid,
+				CustomParameters: "{\"uid\": \"0\"}",
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &PddService{
+				config: tt.fields.config,
+			}
+			got, err := p.PddGenerate(tt.args.pddGenerateReq)
+			if err != nil {
+				log.Fatalf("TestPddService_GoodsSearch错误:%s", err.Error())
+			}
+			log.Printf("TestPddService_GoodsSearch测试成功😁返回：%s", toJson(got))
+		})
+	}
+}
+
+func TestPddService_PddAuthQuery(t *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		pddAuthQueryReq *PddAuthQueryReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *PddAuthQueryRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestPddService_PddAuthQuery_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{pddAuthQueryReq: &PddAuthQueryReq{
+				AccessToken:      key.TestPddAccessToken,
+				Pid:              key.TestPddPid,
+				CustomParameters: "{\"uid\": \"0\"}",
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &PddService{
+				config: tt.fields.config,
+			}
+			got, err := p.PddAuthQuery(tt.args.pddAuthQueryReq)
+			if err != nil {
+				log.Fatalf("TestPddService_GoodsSearch错误:%s", err.Error())
+			}
+			log.Printf("TestPddService_GoodsSearch测试成功😁返回：%s", toJson(got))
 		})
 	}
 }

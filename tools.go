@@ -14,7 +14,7 @@ func intSliceToStringSlice(intS []int) []string {
 	length := len(intS)
 	strSlice := make([]string, length)
 	for i := 0; i < length; i++ {
-		strSlice = append(strSlice, strconv.FormatInt(int64(intS[i]), 10))
+		strSlice[i] = strconv.FormatInt(int64(intS[i]), 10)
 	}
 	return strSlice
 }

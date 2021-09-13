@@ -1,10 +1,10 @@
 package go_vesdk
 
-type PDDCatsReq struct {
+type PddCatsReq struct {
 	ParentCatId int64 `json:"parent_cat_id"`
 }
 
-type PDDCatsRsp struct {
+type PddCatsRsp struct {
 	Error string `json:"error"`
 	Msg   string `json:"msg"`
 	Data  []struct {
@@ -15,11 +15,11 @@ type PDDCatsRsp struct {
 	} `json:"data"`
 }
 
-type PDDGoodsOptReq struct {
+type PddGoodsOptReq struct {
 	ParentOptId int `json:"parent_opt_id"`
 }
 
-type PDDGoodsOptRsp struct {
+type PddGoodsOptRsp struct {
 	Error string `json:"error"`
 	Msg   string `json:"msg"`
 	Data  []struct {
@@ -30,12 +30,12 @@ type PDDGoodsOptRsp struct {
 	} `json:"data"`
 }
 
-type PDDGoodsSearchRangeList struct {
+type PddGoodsSearchRangeList struct {
 	RangeId   int64 `json:"range_id"`
 	RangeFrom int64 `json:"range_from"`
 	RangeTo   int64 `json:"range_to"`
 }
-type PDDGoodsSearchReq struct {
+type PddGoodsSearchReq struct {
 	AccessToken      string                    `json:"access_token"` // 必填
 	ActivityTags     []int                     `json:"activity_tags"`
 	BlockCatPackages []int                     `json:"block_cat_packages"`
@@ -53,13 +53,13 @@ type PDDGoodsSearchReq struct {
 	Page             int                       `json:"page"`
 	PageSize         int                       `json:"page_size"`
 	Pid              string                    `json:"pid"` // 必填
-	RangeList        []PDDGoodsSearchRangeList `json:"range_list"`
+	RangeList        []PddGoodsSearchRangeList `json:"range_list"`
 	SortType         int                       `json:"sort_type"`
 	UseCustomized    bool                      `json:"use_customized"`
 	WithCoupon       bool                      `json:"with_coupon"`
 }
 
-type PDDGoodsSearchRsp struct {
+type PddGoodsSearchRsp struct {
 	Error     string `json:"error"`
 	Msg       string `json:"msg"`
 	Total     string `json:"total"`
@@ -129,5 +129,41 @@ type PDDGoodsSearchRsp struct {
 		CltCpnStartTime             string   `json:"clt_cpn_start_time,omitempty"`
 		ActivityPromotionRate       string   `json:"activity_promotion_rate,omitempty"`
 		ActivityType                string   `json:"activity_type,omitempty"`
+	} `json:"data"`
+}
+
+type PddGenerateReq struct {
+	AccessToken      string `json:"access_token"`
+	PIdList          string `json:"p_id_list"`
+	CustomParameters string `json:"custom_parameters"`
+}
+
+type PddGenerateRsp struct {
+	Error string `json:"error"`
+	Msg   string `json:"msg"`
+	Data  struct {
+		UrlList []struct {
+			MobileUrl      string `json:"mobile_url"`
+			MobileShortUrl string `json:"mobile_short_url"`
+			Url            string `json:"url"`
+			ShortUrl       string `json:"short_url"`
+		} `json:"url_list"`
+		RequestId string `json:"request_id"`
+	} `json:"data"`
+}
+
+type PddAuthQueryReq struct {
+	AccessToken      string `json:"access_token"`
+	Pid              string `json:"pid"`
+	CustomParameters string `json:"custom_parameters"`
+}
+
+type PddAuthQueryRsp struct {
+	Error      string `json:"error"`
+	Msg        string `json:"msg"`
+	BindStatus string `json:"bind_status"`
+	Data       struct {
+		Bind      string `json:"bind"`
+		RequestId string `json:"request_id"`
 	} `json:"data"`
 }

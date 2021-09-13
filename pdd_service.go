@@ -9,31 +9,99 @@ import (
 	"strings"
 )
 
-// IPDDService 拼多多服务接口
-type IPDDService interface {
+// IPddService 拼多多服务接口
+type IPddService interface {
 	// Cats 获取标准分类：
 	// 具体参数可以参考官方文档: http://open.pinduoduo.com/application/document/api?id=pdd.goods.cats.get
-	Cats(*PDDCatsReq) (*PDDCatsRsp, error)
+	Cats(*PddCatsReq) (*PddCatsRsp, error)
 	// GoodsOpt 获取标准分类(和商品搜索关联)：
 	// 具体参数可以参考官方文档: https://open.pinduoduo.com/application/document/api?id=pdd.goods.opt.get
-	GoodsOpt(*PDDGoodsOptReq) (*PDDGoodsOptRsp, error)
+	GoodsOpt(*PddGoodsOptReq) (*PddGoodsOptRsp, error)
 	// GoodsSearch 多多进宝商品查询
 	// 具体参数可以参考官方文档: https://open.pinduoduo.com/application/document/api?id=pdd.ddk.goods.search
-	GoodsSearch(*PDDGoodsSearchReq) (*PDDGoodsSearchRsp, error)
+	GoodsSearch(*PddGoodsSearchReq) (*PddGoodsSearchRsp, error)
+	// PddAuthQuery 查询是否绑定备案
+	// https://open.pinduoduo.com/application/document/api?id=pdd.ddk.oauth.member.authority.query
+	PddAuthQuery(*PddAuthQueryReq) (*PddAuthQueryRsp, error)
+	// PddGenerate PID和备案关联-生成授权备案链接
+	// https://open.pinduoduo.com/application/document/api?id=pdd.ddk.goods.promotion.url.generate
+	PddGenerate(*PddGenerateReq) (*PddGenerateRsp, error)
 }
 
-// PDDService 具体结构体
-type PDDService struct {
+// PddService 具体结构体
+type PddService struct {
 	config Config
 }
 
-// NewPDDService 初始化拼多多服务
-func NewPDDService(config Config) IPDDService {
-	return &PDDService{config: config}
+// NewPddService 初始化拼多多服务
+func NewPddService(config Config) IPddService {
+	return &PddService{config: config}
 }
 
-func (p *PDDService) Cats(pddCatsReq *PDDCatsReq) (*PDDCatsRsp, error) {
-	var pddCatsRsp = new(PDDCatsRsp)
+func (p *PddService) PddAuthQuery(pddAuthQueryReq *PddAuthQueryReq) (*PddAuthQueryRsp, error) {
+	var pddAuthQueryRsp = new(PddAuthQueryRsp)
+	refTy := reflect.TypeOf(*pddAuthQueryReq)
+	refV := reflect.ValueOf(*pddAuthQueryReq)
+	httpParams := map[string]string{
+		"vekey": p.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case string:
+			v := val.(string)
+			if v != "" {
+				httpParams[key] = v
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/pdd/pdd_authquery", httpParams, nil)
+	if rsp.Err != nil {
+		return pddAuthQueryRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), pddAuthQueryRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return pddAuthQueryRsp, veRspError
+	}
+	return pddAuthQueryRsp, err
+}
+
+func (p *PddService) PddGenerate(pddGenerateReq *PddGenerateReq) (*PddGenerateRsp, error) {
+	var pddGenerateRsp = new(PddGenerateRsp)
+	refTy := reflect.TypeOf(*pddGenerateReq)
+	refV := reflect.ValueOf(*pddGenerateReq)
+	httpParams := map[string]string{
+		"vekey": p.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case string:
+			v := val.(string)
+			if v != "" {
+				httpParams[key] = v
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/pdd/pdd_generate", httpParams, nil)
+	if rsp.Err != nil {
+		return pddGenerateRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), pddGenerateRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return pddGenerateRsp, veRspError
+	}
+	return pddGenerateRsp, err
+}
+
+func (p *PddService) Cats(pddCatsReq *PddCatsReq) (*PddCatsRsp, error) {
+	var pddCatsRsp = new(PddCatsRsp)
 	refTy := reflect.TypeOf(*pddCatsReq)
 	refV := reflect.ValueOf(*pddCatsReq)
 	httpParams := map[string]string{
@@ -63,8 +131,8 @@ func (p *PDDService) Cats(pddCatsReq *PDDCatsReq) (*PDDCatsRsp, error) {
 	return pddCatsRsp, err
 }
 
-func (p *PDDService) GoodsOpt(goodsOptReq *PDDGoodsOptReq) (*PDDGoodsOptRsp, error) {
-	var goodsOptRsp = new(PDDGoodsOptRsp)
+func (p *PddService) GoodsOpt(goodsOptReq *PddGoodsOptReq) (*PddGoodsOptRsp, error) {
+	var goodsOptRsp = new(PddGoodsOptRsp)
 	refTy := reflect.TypeOf(*goodsOptReq)
 	refV := reflect.ValueOf(*goodsOptReq)
 	httpParams := map[string]string{
@@ -92,8 +160,8 @@ func (p *PDDService) GoodsOpt(goodsOptReq *PDDGoodsOptReq) (*PDDGoodsOptRsp, err
 	return goodsOptRsp, err
 }
 
-func (p *PDDService) GoodsSearch(pddSearchReq *PDDGoodsSearchReq) (*PDDGoodsSearchRsp, error) {
-	var pddSearchRsp = new(PDDGoodsSearchRsp)
+func (p *PddService) GoodsSearch(pddSearchReq *PddGoodsSearchReq) (*PddGoodsSearchRsp, error) {
+	var pddSearchRsp = new(PddGoodsSearchRsp)
 	refTy := reflect.TypeOf(*pddSearchReq)
 	refV := reflect.ValueOf(*pddSearchReq)
 	httpParams := map[string]string{
@@ -134,11 +202,9 @@ func (p *PDDService) GoodsSearch(pddSearchReq *PDDGoodsSearchReq) (*PDDGoodsSear
 			v := val.(bool)
 			if v {
 				httpParams[key] = "true"
-			} else {
-				httpParams[key] = "false"
 			}
-		case []PDDGoodsSearchRangeList:
-			v := val.([]PDDGoodsSearchRangeList)
+		case []PddGoodsSearchRangeList:
+			v := val.([]PddGoodsSearchRangeList)
 			if len(v) > 0 {
 				params, err := util.FastJson.Marshal(v)
 				if err != nil {

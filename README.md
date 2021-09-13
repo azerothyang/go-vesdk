@@ -27,6 +27,14 @@ func main() {
 		log.Fatalln(err)
 	}
 	fmt.Printf("高佣转链:%v\n", *hcApiRsp)
+	
+	// 拼多多
+	pddSrv := go_vesdk.NewPddService(go_vesdk.Config{VeKey: "V0000"})
+	pddGoodsOpts, err := pddSrv.GoodsOpt(&go_vesdk.PddGoodsOptReq{ParentOptId: 0})
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Printf("拼多多类目:%v\n", *pddGoodsOpts)
 }
 ```
 
@@ -47,3 +55,10 @@ func main() {
 - OrderRowQuery: 订单行查询接口
 - BigField: 大字段商品详情查询接口
 - JDMaterialQuery: 物料商品查询
+
+### 拼多多相关
+- Cats: 获取标准分类
+- GoodsOpt: 获取标准分类(和商品搜索关联)
+- GoodsSearch: 多多进宝商品查询
+- PddAuthQuery: 查询是否绑定备案
+- PddGenerate: 生成授权备案链接
