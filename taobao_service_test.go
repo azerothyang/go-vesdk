@@ -329,3 +329,86 @@ func TestTaoBaoService_RefundOrder(t1 *testing.T) {
 		})
 	}
 }
+
+func TestTaoBaoService_TbProductDetail(t1 *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		tbProductDetailReq *TbProductDetailReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *TbProductDetailRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestTaoBaoService_TbProductDetail_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{tbProductDetailReq: &TbProductDetailReq{
+				Id:           646011446519,
+				OnlyShopInfo: 0,
+				OnlySimple:   0,
+				GetCatName:   0,
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t1.Run(tt.name, func(t1 *testing.T) {
+			t := &TaoBaoService{
+				config: tt.fields.config,
+			}
+			got, err := t.TbProductDetail(tt.args.tbProductDetailReq)
+			if err != nil {
+				log.Fatalf("TestTaoBaoService_RefundOrder错误:%s", err.Error())
+			}
+			log.Printf("TestTaoBaoService_RefundOrder测试成功😁返回：%s", toJson(got))
+		})
+	}
+}
+
+func TestTaoBaoService_TbSimpleProductDetail(t1 *testing.T) {
+	type fields struct {
+		config Config
+	}
+	type args struct {
+		tbSimpleDetailReq *TbSimpleDetailReq
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *TbSimpleDetailRsp
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name:   "TestTaoBaoService_TbSimpleProductDetail_case1",
+			fields: fields{config: Config{VeKey: key.TestVeKey}},
+			args: args{tbSimpleDetailReq: &TbSimpleDetailReq{
+				Id:           646011446519,
+				OnlyShopInfo: 0,
+				GetCatName:   0,
+			}},
+			want:    nil,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t1.Run(tt.name, func(t1 *testing.T) {
+			t := &TaoBaoService{
+				config: tt.fields.config,
+			}
+			got, err := t.TbSimpleProductDetail(tt.args.tbSimpleDetailReq)
+			if err != nil {
+				log.Fatalf("TestTaoBaoService_TbSimpleProductDetail错误:%s", err.Error())
+			}
+			log.Printf("TestTaoBaoService_TbSimpleProductDetail测试成功😁返回：%s", toJson(got))
+		})
+	}
+}

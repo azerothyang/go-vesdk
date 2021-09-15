@@ -35,6 +35,14 @@ type ITaoBaoService interface {
 	// http://wsd.591hufu.com/doc/taokeweiquandingdanjiekou
 	// 官方文档：https://open.taobao.com/api.htm?docId=43755&docType=2&scopeId=16322
 	RefundOrder(*RefundOrderReq) (*RefundOrderRsp, error)
+
+	// TbSimpleProductDetail 淘宝或天猫的全网产品详情接口，简版产品详情
+	// http://wsd.591hufu.com/doc/quanwangshangpinxiangqing
+	TbSimpleProductDetail(*TbSimpleDetailReq) (*TbSimpleDetailRsp, error)
+
+	// TbProductDetail 淘宝或天猫的全网产品详情接口
+	// http://wsd.591hufu.com/doc/quanwangshangpinxiangqing
+	TbProductDetail(*TbProductDetailReq) (*TbProductDetailRsp, error)
 }
 
 // TaoBaoService 具体结构体
@@ -45,6 +53,79 @@ type TaoBaoService struct {
 // NewTaoBaoService 初始化淘宝服务
 func NewTaoBaoService(config Config) ITaoBaoService {
 	return &TaoBaoService{config: config}
+}
+
+func (t *TaoBaoService) TbSimpleProductDetail(tbSimpleDetailReq *TbSimpleDetailReq) (*TbSimpleDetailRsp, error) {
+	tbSimpleDetailRsp := new(TbSimpleDetailRsp)
+	refTy := reflect.TypeOf(*tbSimpleDetailReq)
+	refV := reflect.ValueOf(*tbSimpleDetailReq)
+	httpParams := map[string]string{
+		"vekey":      t.config.VeKey,
+		"onlysimple": "1",
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case int:
+			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		case int64:
+			v := val.(int64)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(v, 10)
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/tbprodetail", httpParams, nil)
+	if rsp.Err != nil {
+		return tbSimpleDetailRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), tbSimpleDetailRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return tbSimpleDetailRsp, veRspError
+	}
+	return tbSimpleDetailRsp, err
+}
+
+func (t *TaoBaoService) TbProductDetail(tbProductDetailReq *TbProductDetailReq) (*TbProductDetailRsp, error) {
+	tbProductDetailRsp := new(TbProductDetailRsp)
+	refTy := reflect.TypeOf(*tbProductDetailReq)
+	refV := reflect.ValueOf(*tbProductDetailReq)
+	httpParams := map[string]string{
+		"vekey": t.config.VeKey,
+	}
+	for i := 0; i < refTy.NumField(); i++ {
+		val := refV.Field(i).Interface()
+		key := refTy.Field(i).Tag.Get("json")
+		switch val.(type) {
+		case int:
+			v := val.(int)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(int64(v), 10)
+			}
+		case int64:
+			v := val.(int64)
+			if v != 0 {
+				httpParams[key] = strconv.FormatInt(v, 10)
+			}
+		}
+	}
+	rsp := httpclient.DefaultClient.GET(veUrl+"/tbprodetail", httpParams, nil)
+	if rsp.Err != nil {
+		return tbProductDetailRsp, rsp.Err
+	}
+	err := util.FastJson.Unmarshal([]byte(rsp.Content), tbProductDetailRsp)
+	if err != nil {
+		veRspError := new(VeRspError)
+		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
+		return tbProductDetailRsp, veRspError
+	}
+	return tbProductDetailRsp, err
 }
 
 func (t *TaoBaoService) RefundOrder(refundOrderReq *RefundOrderReq) (*RefundOrderRsp, error) {

@@ -427,3 +427,230 @@ type RefundOrderRsp struct {
 		ResultCode int `json:"result_code"`
 	} `json:"data"`
 }
+
+type TbSimpleDetailReq struct {
+	Id           int64 `json:"id"`
+	OnlyShopInfo int   `json:"onlyshopinfo"`
+	GetCatName   int   `json:"getcatname"`
+}
+
+type TbSimpleDetailRsp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		Status   int      `json:"status"`
+		Url      string   `json:"url"`
+		Id       string   `json:"id"`
+		Title    string   `json:"title"`
+		Images   []string `json:"images"`
+		Price    int      `json:"price"`
+		VideoUrl string   `json:"videoUrl"`
+		SellerID string   `json:"sellerID"`
+		Platform string   `json:"platform"`
+	} `json:"data"`
+}
+
+type TbProductDetailReq struct {
+	Id           int64 `json:"id"`
+	OnlyShopInfo int   `json:"onlyshopinfo"`
+	OnlySimple   int   `json:"onlysimple"`
+	GetCatName   int   `json:"getcatname"`
+}
+
+type TbProductDetailRsp struct {
+	Error         string `json:"error"`
+	Msg           string `json:"msg"`
+	DebugCode     string `json:"debugCode"`
+	RequestGlobal string `json:"requestGlobal"`
+	Data          struct {
+		ApiStack []struct {
+			Name  string `json:"name"`
+			Value string `json:"value"`
+		} `json:"apiStack"`
+		Seller struct {
+			UserId           string `json:"userId"`
+			ShopId           string `json:"shopId"`
+			ShopName         string `json:"shopName"`
+			ShopUrl          string `json:"shopUrl"`
+			TaoShopUrl       string `json:"taoShopUrl"`
+			ShopIcon         string `json:"shopIcon"`
+			Fans             string `json:"fans"`
+			AllItemCount     string `json:"allItemCount"`
+			NewItemCount     string `json:"newItemCount"`
+			ShowShopLinkIcon bool   `json:"showShopLinkIcon"`
+			ShopCard         string `json:"shopCard"`
+			SellerType       string `json:"sellerType"`
+			ShopType         string `json:"shopType"`
+			Evaluates        []struct {
+				Title                     string `json:"title"`
+				Score                     string `json:"score"`
+				Type                      string `json:"type"`
+				Level                     string `json:"level"`
+				LevelText                 string `json:"levelText"`
+				LevelTextColor            string `json:"levelTextColor"`
+				LevelBackgroundColor      string `json:"levelBackgroundColor"`
+				TmallLevelTextColor       string `json:"tmallLevelTextColor"`
+				TmallLevelBackgroundColor string `json:"tmallLevelBackgroundColor"`
+			} `json:"evaluates"`
+			Evaluates2 []struct {
+				TitleColor     string `json:"titleColor"`
+				ScoreTextColor string `json:"scoreTextColor"`
+				Title          string `json:"title"`
+				Score          string `json:"score"`
+				Type           string `json:"type"`
+				Level          string `json:"level"`
+				LevelText      string `json:"levelText"`
+				LevelTextColor string `json:"levelTextColor"`
+			} `json:"evaluates2"`
+			SellerNick         string `json:"sellerNick"`
+			CreditLevel        string `json:"creditLevel"`
+			CreditLevelIcon    string `json:"creditLevelIcon"`
+			BrandIcon          string `json:"brandIcon"`
+			BrandIconRatio     string `json:"brandIconRatio"`
+			Starts             string `json:"starts"`
+			GoodRatePercentage string `json:"goodRatePercentage"`
+			Fbt2User           string `json:"fbt2User"`
+			SimpleShopDOStatus string `json:"simpleShopDOStatus"`
+			ShopVersion        string `json:"shopVersion"`
+			AtmosphereImg      string `json:"atmosphereImg"`
+			AtmosphereColor    string `json:"atmosphereColor"`
+			ShopTextColor      string `json:"shopTextColor"`
+			EntranceList       []struct {
+				Text            string `json:"text"`
+				TextColor       string `json:"textColor"`
+				BorderColor     string `json:"borderColor"`
+				BackgroundColor string `json:"backgroundColor"`
+				Action          []struct {
+					Key    string `json:"key"`
+					Params struct {
+						Url         string `json:"url,omitempty"`
+						TrackParams struct {
+							Spm string `json:"spm"`
+						} `json:"trackParams,omitempty"`
+						TrackName string `json:"trackName,omitempty"`
+					} `json:"params"`
+				} `json:"action"`
+			} `json:"entranceList"`
+			AtmophereMask       bool   `json:"atmophereMask"`
+			AtmosphereMaskColor string `json:"atmosphereMaskColor"`
+		} `json:"seller"`
+		PropsCut string `json:"propsCut"`
+		Item     struct {
+			ItemId           string        `json:"itemId"`
+			Title            string        `json:"title"`
+			Subtitle         string        `json:"subtitle"`
+			Images           []string      `json:"images"`
+			CategoryId       string        `json:"categoryId"`
+			RootCategoryId   string        `json:"rootCategoryId"`
+			BrandValueId     string        `json:"brandValueId"`
+			SkuText          string        `json:"skuText"`
+			CountMultiple    []interface{} `json:"countMultiple"`
+			ExParams         []interface{} `json:"exParams"`
+			CommentCount     string        `json:"commentCount"`
+			Favcount         string        `json:"favcount"`
+			TaobaoDescUrl    string        `json:"taobaoDescUrl"`
+			TmallDescUrl     string        `json:"tmallDescUrl"`
+			TaobaoPcDescUrl  string        `json:"taobaoPcDescUrl"`
+			ModuleDescUrl    string        `json:"moduleDescUrl"`
+			OpenDecoration   bool          `json:"openDecoration"`
+			ModuleDescParams struct {
+				F  string `json:"f"`
+				Id string `json:"id"`
+			} `json:"moduleDescParams"`
+			H5ModuleDescUrl string `json:"h5moduleDescUrl"`
+			CartUrl         string `json:"cartUrl"`
+		} `json:"item"`
+		Resource struct {
+			Entrances struct {
+				AskAll struct {
+					Icon string `json:"icon"`
+					Text string `json:"text"`
+					Link string `json:"link"`
+				} `json:"askAll"`
+			} `json:"entrances"`
+		} `json:"resource"`
+		Vertical struct {
+			AskAll struct {
+				AskText    string `json:"askText"`
+				AskIcon    string `json:"askIcon"`
+				AnswerText string `json:"answerText"`
+				AnswerIcon string `json:"answerIcon"`
+				LinkUrl    string `json:"linkUrl"`
+				Title      string `json:"title"`
+				QuestNum   string `json:"questNum"`
+				ShowNum    string `json:"showNum"`
+				ModelList  []struct {
+					AskText         string `json:"askText"`
+					AnswerCountText string `json:"answerCountText"`
+					FirstAnswer     string `json:"firstAnswer"`
+				} `json:"modelList"`
+				Model4XList []struct {
+					AskText         string `json:"askText"`
+					AnswerCountText string `json:"answerCountText"`
+					AskIcon         string `json:"askIcon"`
+					AskTextColor    string `json:"askTextColor"`
+				} `json:"model4XList"`
+			} `json:"askAll"`
+		} `json:"vertical"`
+		Params struct {
+			TrackParams struct {
+				BrandId    string `json:"brandId"`
+				BCType     string `json:"BC_type"`
+				CategoryId string `json:"categoryId"`
+			} `json:"trackParams"`
+		} `json:"params"`
+		Props struct {
+			GroupProps []interface{} `json:"groupProps"`
+		} `json:"props"`
+		MockData string `json:"mockData"`
+		Rate     struct {
+			TotalCount string `json:"totalCount"`
+			Invite     struct {
+				ShowInvite string `json:"showInvite"`
+				InviteText string `json:"inviteText"`
+			} `json:"invite"`
+			Keywords []struct {
+				Attribute string `json:"attribute"`
+				Word      string `json:"word"`
+				Count     string `json:"count"`
+				Type      string `json:"type"`
+			} `json:"keywords"`
+			RateList []struct {
+				Content            string `json:"content"`
+				UserName           string `json:"userName"`
+				HeadPic            string `json:"headPic"`
+				MemberLevel        string `json:"memberLevel"`
+				DateTime           string `json:"dateTime"`
+				CreateTimeInterval string `json:"createTimeInterval"`
+				SkuInfo            string `json:"skuInfo"`
+				TmallMemberLevel   string `json:"tmallMemberLevel"`
+				IsVip              string `json:"isVip"`
+				FeedId             string `json:"feedId"`
+			} `json:"rateList"`
+			UtFeedId string `json:"utFeedId"`
+		} `json:"rate"`
+		Props2  []interface{} `json:"props2"`
+		SkuBase struct {
+			Skus []struct {
+				SkuId    string `json:"skuId"`
+				PropPath string `json:"propPath"`
+			} `json:"skus"`
+			Props []struct {
+				Pid    string `json:"pid"`
+				Name   string `json:"name"`
+				Values []struct {
+					Vid  string `json:"vid"`
+					Name string `json:"name"`
+				} `json:"values"`
+			} `json:"props"`
+		} `json:"skuBase"`
+		Delivery struct {
+			Postage string `json:"postage"`
+			From    string `json:"from"`
+		} `json:"delivery"`
+		Volume struct {
+			SellCount      string `json:"sellCount"`
+			VagueSellCount string `json:"vagueSellCount"`
+		} `json:"volume"`
+	} `json:"data"`
+}

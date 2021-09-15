@@ -1,7 +1,9 @@
 # go-vesdk
+
 Golang维易相关淘宝，京东，拼多多，唯品会sdk🐲
 
 ## 快速开始
+
 ```
 package main
 
@@ -39,15 +41,20 @@ func main() {
 ```
 
 ## 目录说明
+
 ### 淘客相关
+
 - OrderDetails: 订单查询
 - HCApiOne: 高佣转链
 - HCApiAllByItemIds: 多个商品id批量高佣转链
 - SuperSearch: 超级搜索接口
 - OrderPunish: 淘宝客处罚订单查询API
 - RefundOrder: 淘客维权订单接口-支持渠道订单和会员订单维权
+- TbSimpleProductDetail: 淘宝或天猫的全网产品详情接口，简版产品详情
+- TbProductDetail: 淘宝或天猫的全网产品详情接口
 
 ### 京东相关
+
 - JDSearch: 关键词商品查询接口
 - Category: 新版分类接口category
 - PromotionGoodsInfo: 获取推广商品信息接口
@@ -57,6 +64,7 @@ func main() {
 - JDMaterialQuery: 物料商品查询
 
 ### 拼多多相关
+
 - Cats: 获取标准分类
 - GoodsOpt: 获取标准分类(和商品搜索关联)
 - GoodsSearch: 多多进宝商品查询
