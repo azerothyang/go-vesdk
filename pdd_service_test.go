@@ -109,7 +109,7 @@ func TestPddService_GoodsSearch(t *testing.T) {
 				GoodsSignList:    nil,
 				IsBrandGoods:     false,
 				//Keyword:          "手机", // 这里需要注意，如果传入了Keyword则需要传入CustomParameters，可以默认使用一个uid为0的备案
-				Keyword:          "239881990818", // 这里需要注意，如果传入了Keyword则需要传入CustomParameters，可以默认使用一个uid为0的备案
+				Keyword:          "239881990818", // 这里需要注意，如果传入了Keyword则需要传入CustomParameters，可以默认使用一个uid为0的备案。 615845438434这个id的商品会查出total返回1但是没商品信息的情况
 				ListId:           "",
 				MerchantType:     0,
 				MerchantTypeList: nil,

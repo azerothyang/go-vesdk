@@ -1,6 +1,7 @@
 package go_vesdk
 
 import (
+	"errors"
 	"fmt"
 	"github.com/azerothyang/go-vesdk/httpclient"
 	"github.com/go-dragon/util"
@@ -223,6 +224,11 @@ func (p *PddService) GoodsSearch(pddSearchReq *PddGoodsSearchReq) (*PddGoodsSear
 		veRspError := new(VeRspError)
 		util.FastJson.Unmarshal([]byte(rsp.Content), veRspError)
 		return pddSearchRsp, veRspError
+	}
+
+	// 如果搜索id为空字符，也表示商品信息为空
+	if pddSearchRsp.SearchId == "" {
+		return pddSearchRsp, errors.New("商品信息为空")
 	}
 	return pddSearchRsp, err
 }
