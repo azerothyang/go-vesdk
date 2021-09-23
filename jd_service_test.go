@@ -23,7 +23,7 @@ func TestJDService_JDSearch(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestJDService_JDSearch_case_1",
+			name:   "TestJDService_JDSearch_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{jdParams: &JDSearchParams{
 				SkuIds:  "",
@@ -69,7 +69,7 @@ func TestJDService_Category(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestJDService_Category_case1",
+			name:   "TestJDService_Category_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{
 				parentId: 0, // 上一级类目id
@@ -109,7 +109,7 @@ func TestJDService_PromotionGoodsInfo(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestJDService_PromotionGoodsInfo_case1",
+			name:    "TestJDService_PromotionGoodsInfo_Case1",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{skuIds: []string{"100016777664", "4718515"}},
 			want:    nil,
@@ -189,7 +189,7 @@ func TestJDService_OrderRowQuery(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestJDService_OrderRowQuery_case1",
+			name:   "TestJDService_OrderRowQuery_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{&JDOrderReq{
 				PageIndex:    1,
@@ -236,7 +236,7 @@ func TestJDService_BigField(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestJDService_BigField",
+			name:    "TestJDService_BigField_Case1",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{skuIds: []string{"68516192765", "100011431721"}, fields: []string{"imageInfo"}},
 			want:    nil,
@@ -273,7 +273,7 @@ func TestJDService_JDMaterialQuery(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "TestJDService_JDMaterialQuery_case1",
+			name: "TestJDService_JDMaterialQuery_Case1",
 			fields: fields{config: Config{
 				VeKey: key.TestVeKey,
 			}},

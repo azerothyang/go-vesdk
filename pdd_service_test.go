@@ -22,7 +22,7 @@ func TestPddService_Cats(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestPddService_PddCats",
+			name:    "TestPddService_PddCats_Case1",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{pddReq: &PddCatsReq{ParentCatId: 0}},
 			want:    nil,
@@ -59,7 +59,7 @@ func TestPddService_GoodsOpt(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:    "TestPddService_GoodsOpt_case1",
+			name:    "TestPddService_GoodsOpt_Case1",
 			fields:  fields{config: Config{VeKey: key.TestVeKey}},
 			args:    args{goodsOptReq: &PddGoodsOptReq{ParentOptId: 0}},
 			want:    nil,
@@ -96,7 +96,7 @@ func TestPddService_GoodsSearch(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestPddService_GoodsSearch_case1",
+			name:   "TestPddService_GoodsSearch_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{pddSearchReq: &PddGoodsSearchReq{
 				AccessToken:      key.TestPddAccessToken,
@@ -156,7 +156,7 @@ func TestPddService_PddGenerate(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestPddService_PddGenerate_case1",
+			name:   "TestPddService_PddGenerate_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{pddGenerateReq: &PddGenerateReq{
 				AccessToken:      key.TestPddAccessToken,
@@ -197,7 +197,7 @@ func TestPddService_PddAuthQuery(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestPddService_PddAuthQuery_case1",
+			name:   "TestPddService_PddAuthQuery_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{pddAuthQueryReq: &PddAuthQueryReq{
 				AccessToken:      key.TestPddAccessToken,

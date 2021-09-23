@@ -23,7 +23,7 @@ func TestTaoBaoService_HCApiAllByItemIds(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_HCApiAllByItemIds",
+			name:   "TestTaoBaoService_HCApiAllByItemIds_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{hcParams: &HCApiParams{
 				Para:        "653217285015,619337473117",
@@ -77,7 +77,7 @@ func TestTaoBaoService_HCApiOne(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_HCApiOne_case_1",
+			name:   "TestTaoBaoService_HCApiOne_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{hcParams: &HCApiParams{
 				Para:        "2👈，7lE9Xnhpvlv信 https://m.tb.cn/h.fYwVbcV?sm=c90a70  太空熊猫联名nasa旗舰店官网秋季外套小熊男情侣休闲夹克nasa外套",
@@ -131,7 +131,7 @@ func TestTaoBaoService_OrderDetails(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_OrderDetails_case_1",
+			name:   "TestTaoBaoService_OrderDetails_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{orderDetailParams: &OrderDetailsParams{
 				StartTime:     "2021-09-07 18:21:16",
@@ -177,7 +177,7 @@ func TestTaoBaoService_SuperSearch(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_SuperSearch_case1",
+			name:   "TestTaoBaoService_SuperSearch_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{superSearchReq: &SuperSearchReq{
 				Para:              "2👈，7lE9Xnhpvlv信 https://m.tb.cn/h.fYwVbcV?sm=c90a70  太空熊猫联名nasa旗舰店官网秋季外套小熊男情侣休闲夹克nasa外套",
@@ -256,7 +256,7 @@ func TestTaoBaoService_OrderPunish(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_OrderPunish_case1",
+			name:   "TestTaoBaoService_OrderPunish_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{orderPunishReq: &OrderPunishReq{
 				StartTime:  "2021-09-01",
@@ -302,7 +302,7 @@ func TestTaoBaoService_RefundOrder(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_RefundOrder_case1",
+			name:   "TestTaoBaoService_RefundOrder_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{refundOrderReq: &RefundOrderReq{
 				StartTime:  "2021-09-11 00:00:00",
@@ -346,7 +346,7 @@ func TestTaoBaoService_TbProductDetail(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_TbProductDetail_case1",
+			name:   "TestTaoBaoService_TbProductDetail_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{tbProductDetailReq: &TbProductDetailReq{
 				Id:           646011446519,
@@ -388,7 +388,7 @@ func TestTaoBaoService_TbSimpleProductDetail(t1 *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name:   "TestTaoBaoService_TbSimpleProductDetail_case1",
+			name:   "TestTaoBaoService_TbSimpleProductDetail_Case1",
 			fields: fields{config: Config{VeKey: key.TestVeKey}},
 			args: args{tbSimpleDetailReq: &TbSimpleDetailReq{
 				Id:           646011446519,
